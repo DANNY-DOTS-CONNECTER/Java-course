@@ -12,7 +12,7 @@ abstract class AbstractFlyingObject
     # height:int
     # isValid:boolean
 
-    + FlyingObject(int locationX, int locationY, int speedX, int speedY):void
+    + FlyingObject(int locationX, int locationY, int speedX, int speedY)
     + forward():void
     + crash(FlyingObject flyingObject):boolean
     + setLocation(double locationX, double locationY):void
@@ -29,7 +29,7 @@ abstract class AbstractAircraft
 {
 	# axHp:int
     # hp:int
-    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + decreaseHp(int decrease):void
     + getHp():int
     + {abstract} shoot():List<Bullet>
@@ -38,14 +38,16 @@ abstract class AbstractAircraft
 abstract class AbstractBullet
 {
     - power:int
-    + Bullet(int locationX, int locationY, int speedX, int speedY, int power):void
+    + Bullet(int locationX, int locationY, int speedX, int speedY, int power)
     + forward():void
 	+ getPower():int
 }
+
 abstract class AbstractBoosterPacks
 {
     + bonus():void
-    + AbstractBoosterPacks(int locationX, int locationY) :void
+    + AbstractBoosterPacks(int locationX, int locationY)
+    + forward():void
 }
 
 AbstractFlyingObject <|-- AbstractAircraft
@@ -64,17 +66,47 @@ AbstractBoosterPacks <|-- PropBlood
 AbstractBoosterPacks <|-- PropBullet
 AbstractBoosterPacks <|-- PropBomb
 
+BossEnemyFactory ..> BossEnemy: create
+EliteEnemyFactory ..> EliteEnemy : create
+MobEnemyFactory ..> MobEnemy : create
+
+PropBulletFactory ..> PropBullet : create
+PropBloodFactory ..> PropBlood : create
+PropBombFactory ..> PropBomb : create
+
+interface EnemyFactory
+{
+    {abstract}createOperation():AbstractAircraft
+}
+
+class MobEnemyFactory implements EnemyFactory
+{
+    + CreateMobEnemy():AbstractAircraft
+}
+
+class EliteEnemyFactory implements EnemyFactory{
+    + CreateEliteEnemy():AbstractAircraft
+}
+
+class BossEnemyFactory implements EnemyFactory{
+    + CreateBossEnemy():AbstractAircraft
+}
+
+
+
 class HeroAircraft {
     - shootNum:int
     - power:int
     - direction:int
-    + HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    - {static} instance:HeroAircraft
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + {static} getInstance():HeroAircraft
     + forward():void
     + shoot():List<Bullet>
 }
 
 class MobEnemy {
-    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
     + shoot():List<Bullet>
 }
@@ -82,7 +114,7 @@ class MobEnemy {
 class EliteEnemy{
     - power:int
     - direction:int
-    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + shoot():List<Bullet>
     + forward():void
 }
@@ -90,31 +122,47 @@ class EliteEnemy{
 class BossEnemy{
     - power:int
     - direction:int
-    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + shoot():List<Bullet>
     + forward():void
 }
 
 class HeroBullet {
     + HeroBullet(int locationX, int locationY,
-     int speedX, int speedY, int power):void
+     int speedX, int speedY, int power)
 }
 
 class EnemyBullet {
     + EnemyBullet(int locationX, int locationY,
-     int speedX, int speedY, int power):void
+     int speedX, int speedY, int power)
+}
+
+interface PropFactory{
+    {abstract} createOperation():AbstractBoosterPacks
+}
+
+class PropBombFactory implements PropFactory{
+    + createPropBomb():AbstractBoosterPacks
+}
+
+class PropBloodFactory implements PropFactory{
+    + createPropBlood():AbstractBoosterPacks
+}
+
+class PropBulletFactory implements PropFactory{
+    + createPropBullet():AbstractBoosterPacks
 }
 
 class PropBlood{
-    + PropBlood(int locationX, int locationY):void
+    + PropBlood(int locationX, int locationY)
 }
 
 class PropBomb{
-    + PropBomb(int locationX, int locationY):void
+    + PropBomb(int locationX, int locationY)
 }
 
 class PropBullet{
-    + PropBullet(int locationX, int locationY):void
+    + PropBullet(int locationX, int locationY)
 }
 
 @enduml
