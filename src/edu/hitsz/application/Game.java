@@ -1,10 +1,7 @@
 package edu.hitsz.application;
 
 import edu.hitsz.aircraft.*;
-import edu.hitsz.booster.AbstractBoosterPacks;
-import edu.hitsz.booster.PropBlood;
-import edu.hitsz.booster.PropBomb;
-import edu.hitsz.booster.PropBullet;
+import edu.hitsz.booster.*;
 import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
@@ -16,8 +13,6 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static edu.hitsz.application.Main.WINDOW_HEIGHT;
-import static edu.hitsz.application.Main.WINDOW_WIDTH;
 
 /**
  * 游戏主面板，游戏启动
@@ -43,7 +38,8 @@ public class Game extends JPanel {
     private final List<AbstractBullet> heroBullets;
     private final List<AbstractBullet> enemyBullets;
     private final List<AbstractBoosterPacks> boosterPacks;//道具包
-
+    EnemyFactory enemyFactory;
+    PropFactory propFactory;
 
     private int enemyMaxNumber = 5;
 
@@ -59,12 +55,7 @@ public class Game extends JPanel {
 
 
     public Game() {
-        heroAircraft = new HeroAircraft(
-                WINDOW_WIDTH / 2,
-                Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                0, 0, 100);
-
-
+        heroAircraft = HeroAircraft.getInstance();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
@@ -100,23 +91,13 @@ public class Game extends JPanel {
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     //每隔一段时间随机产生一架普通敌机或精英敌机
                     if (Math.random() >= 0.8) {
-                        /*
-                        精英敌机出现的位置随机，生命值设定为60，纵向速度为8
-                        产生精英敌机的概率会低一些
-                         */
-                        int X = Math.random() >= 0.5 ? 3 : -3;//产生横向速度方向的变量
-                        enemyAircrafts.add(new EliteEnemy((int) (Math.random() * (WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth())),
-                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2), X,
-                                8, 60));
+                        //产生精英敌机的概率会低一些
+                        enemyFactory = new EliteEnemyFactory();
+                        enemyAircrafts.add(enemyFactory.createOperation());
                     } else {
                         //产生普通敌机
-                        enemyAircrafts.add(new MobEnemy(
-                                (int) (Math.random() * (WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
-                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
-                                0,
-                                10,
-                                30
-                        ));
+                        enemyFactory = new MobEnemyFactory();
+                        enemyAircrafts.add(enemyFactory.createOperation());
                     }
                 }
                 // 飞机射出子弹
@@ -128,6 +109,9 @@ public class Game extends JPanel {
 
             // 敌机移动
             aircraftsMoveAction();
+
+            //道具包移动
+            boosterPacksMoveAction();
 
             // 撞击检测
             crashCheckAction();
@@ -202,6 +186,15 @@ public class Game extends JPanel {
     }
 
     /**
+     * 道具包移动
+     */
+    private void boosterPacksMoveAction(){
+        for(AbstractBoosterPacks booster : boosterPacks){
+            booster.forward();
+        }
+    }
+
+    /**
      * 碰撞检测：
      * 1. 敌机攻击英雄
      * 2. 英雄攻击/撞击敌机
@@ -243,11 +236,14 @@ public class Game extends JPanel {
                         if (enemyAircraft.getClass() == EliteEnemy.class) {
                             double num = Math.random();
                             if (num > 0.7) {
-                                boosterPacks.add(new PropBlood(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
+                                propFactory = new PropBloodFactory();
+                                boosterPacks.add(propFactory.createOperation(enemyAircraft.getLocationX(),enemyAircraft.getLocationY()));
                             } else if (num > 0.5) {
-                                boosterPacks.add(new PropBomb(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
+                                propFactory = new PropBombFactory();
+                                boosterPacks.add(propFactory.createOperation(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
                             } else if (num > 0.3) {
-                                boosterPacks.add(new PropBullet(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
+                                propFactory = new PropBulletFactory();
+                                boosterPacks.add(propFactory.createOperation(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
                             }
                             score += 20;
                         } else
