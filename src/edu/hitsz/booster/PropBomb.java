@@ -4,8 +4,8 @@ import edu.hitsz.aircraft.AbstractAircraft;
 
 public class PropBomb extends AbstractBoosterPacks{
 
-    public PropBomb(int locationX, int locationY) {
-        super(locationX, locationY);
+    public PropBomb(int locationX, int locationY, int speedX, int speedY) {
+        super(locationX, locationY, speedX, speedY);
     }
 
     @Override
