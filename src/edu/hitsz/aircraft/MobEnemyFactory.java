@@ -7,7 +7,7 @@ import static edu.hitsz.application.Main.WINDOW_WIDTH;
 
 public class MobEnemyFactory implements EnemyFactory{
     @Override
-    public AbstractAircraft createOperation() {
+    public AbstractEnemy createOperation() {
         return new MobEnemy((int) (Math.random() * (WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 0,
