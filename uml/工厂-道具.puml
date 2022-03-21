@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractBoosterPacks
+{
+    + AbstractBoosterPacks(int locationX, int locationY, int speedX, int speedY)
+    + {abstract}bonus():void
+    + forward():void
+}
+
+interface PropFactory{
+    {abstract} createOperation():AbstractBoosterPacks
+}
+
+class PropBombFactory implements PropFactory{
+    + createOperation():AbstractBoosterPacks
+}
+
+class PropBloodFactory implements PropFactory{
+    + createOperation():AbstractBoosterPacks
+}
+
+class PropBulletFactory implements PropFactory{
+    + createOperation():AbstractBoosterPacks
+}
+
+class PropBlood{
+    + PropBlood(int locationX, int locationY, int speedX, int speedY)
+    + bonus(AbstractAircraft aircraft):void
+}
+
+class PropBomb{
+    + PropBomb(int locationX, int locationY, int speedX, int speedY)
+    + bonus():void
+}
+
+class PropBullet{
+    + PropBullet(int locationX, int locationY, int speedX, int speedY)
+    + bonus():void
+}
+
+PropBulletFactory ..> PropBullet : create
+PropBloodFactory ..> PropBlood : create
+PropBombFactory ..> PropBomb : create
+AbstractBoosterPacks <|-- PropBlood
+AbstractBoosterPacks <|-- PropBullet
+AbstractBoosterPacks <|-- PropBomb
+
+@enduml
