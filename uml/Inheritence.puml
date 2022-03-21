@@ -27,12 +27,12 @@ abstract class AbstractFlyingObject
 }
 abstract class AbstractAircraft
 {
-	# axHp:int
+	# maxHp:int
     # hp:int
     + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + decreaseHp(int decrease):void
     + getHp():int
-    + {abstract} shoot():List<Bullet>
+    + {abstract} shoot():List<AbstractBullet>
  }
 
 abstract class AbstractBullet

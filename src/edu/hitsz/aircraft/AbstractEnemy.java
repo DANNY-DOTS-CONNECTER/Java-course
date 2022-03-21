@@ -15,11 +15,6 @@ public abstract class AbstractEnemy extends AbstractAircraft{
         super(locationX, locationY, speedX, speedY, hp);
     }
 
-    @Override
-    public List<AbstractBullet> shoot() {
-        return null;
-    }
-
     /**
      * 重写forward方法控制敌机的移动
      */
