@@ -4,7 +4,7 @@ import edu.hitsz.bullet.AbstractBullet;
 
 import java.util.List;
 
-public class BossEnemy extends AbstractAircraft{
+public class BossEnemy extends AbstractEnemy{
 
     //暂时没有使用该类
     /**

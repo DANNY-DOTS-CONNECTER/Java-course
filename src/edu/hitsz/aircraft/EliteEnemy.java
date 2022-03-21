@@ -10,9 +10,10 @@ import java.util.List;
 
 /**
  * 精英敌机类
+ *
  * @author zhoudanni
  */
-public class EliteEnemy extends AbstractAircraft{
+public class EliteEnemy extends AbstractEnemy {
 
     /**
      * 子弹一次发射数量
@@ -47,21 +48,8 @@ public class EliteEnemy extends AbstractAircraft{
         int speedX = 0;
         int speedY = this.getSpeedY() + direction * 5;//此处数字越大，速度越快
         AbstractBullet abstractBullet;
-        abstractBullet = new EnemyBullet(x , y, speedX, speedY, power);
+        abstractBullet = new EnemyBullet(x, y, speedX, speedY, power);
         res.add(abstractBullet);
         return res;
     }
-
-    /**
-     * 重写forward方法控制精英敌机的移动
-     */
-    @Override
-    public void forward() {
-        super.forward();
-        // 判定 y 轴向下飞行出界
-        if (locationY >= Main.WINDOW_HEIGHT ) {
-            vanish();
-        }
-    }
-
 }
