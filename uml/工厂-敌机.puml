@@ -3,7 +3,7 @@
 
 interface EnemyFactory
 {
-    {abstract}createOperation():AbstractAircraft
+    {abstract}createOperation():AbstractEnemy
 }
 
 abstract class AbstractAircraft
@@ -18,15 +18,15 @@ abstract class AbstractAircraft
 
 class MobEnemyFactory implements EnemyFactory
 {
-    + createOperation():AbstractAircraft
+    + createOperation():AbstractEnemy
 }
 
 class EliteEnemyFactory implements EnemyFactory{
-    + createOperation():AbstractAircraft
+    + createOperation():AbstractEnemy
 }
 
 class BossEnemyFactory implements EnemyFactory{
-    + createOperation():AbstractAircraft
+    + createOperation():AbstractEnemy
 }
 
 class MobEnemy {
