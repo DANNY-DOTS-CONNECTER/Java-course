@@ -46,7 +46,7 @@ abstract class AbstractBullet
 abstract class AbstractBoosterPacks
 {
     + bonus():void
-    + AbstractBoosterPacks(int locationX, int locationY)
+    + AbstractBoosterPacks(int locationX, int locationY, int speedX, int speedY)
     + forward():void
 }
 
@@ -54,10 +54,11 @@ AbstractFlyingObject <|-- AbstractAircraft
 AbstractFlyingObject <|-- AbstractBullet
 AbstractFlyingObject <|-- AbstractBoosterPacks
 
+AbstractAircraft <|-- AbstractEnemy
 AbstractAircraft <|-- HeroAircraft
-AbstractAircraft <|-- MobEnemy
-AbstractAircraft <|-- EliteEnemy
-AbstractAircraft <|-- BossEnemy
+AbstractEnemy <|-- MobEnemy
+AbstractEnemy <|-- EliteEnemy
+AbstractEnemy <|-- BossEnemy
 
 AbstractBullet <|-- HeroBullet
 AbstractBullet <|-- EnemyBullet
@@ -66,31 +67,6 @@ AbstractBoosterPacks <|-- PropBlood
 AbstractBoosterPacks <|-- PropBullet
 AbstractBoosterPacks <|-- PropBomb
 
-BossEnemyFactory ..> BossEnemy: create
-EliteEnemyFactory ..> EliteEnemy : create
-MobEnemyFactory ..> MobEnemy : create
-
-PropBulletFactory ..> PropBullet : create
-PropBloodFactory ..> PropBlood : create
-PropBombFactory ..> PropBomb : create
-
-interface EnemyFactory
-{
-    {abstract}createOperation():AbstractAircraft
-}
-
-class MobEnemyFactory implements EnemyFactory
-{
-    + CreateMobEnemy():AbstractAircraft
-}
-
-class EliteEnemyFactory implements EnemyFactory{
-    + CreateEliteEnemy():AbstractAircraft
-}
-
-class BossEnemyFactory implements EnemyFactory{
-    + CreateBossEnemy():AbstractAircraft
-}
 
 
 
@@ -102,20 +78,26 @@ class HeroAircraft {
     - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + {static} getInstance():HeroAircraft
     + forward():void
-    + shoot():List<Bullet>
+    + shoot():List<AbstractBullet>
 }
+
+abstract class AbstractEnemy{
+    + AbstractEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+}
+
 
 class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
-    + shoot():List<Bullet>
+    + shoot():List<AbstractBullet>
 }
 
 class EliteEnemy{
     - power:int
     - direction:int
     + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + shoot():List<Bullet>
+    + shoot():List<AbstractBullet>
     + forward():void
 }
 
@@ -123,7 +105,7 @@ class BossEnemy{
     - power:int
     - direction:int
     + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + shoot():List<Bullet>
+    + shoot():List<AbstractBullet>
     + forward():void
 }
 
@@ -137,32 +119,17 @@ class EnemyBullet {
      int speedX, int speedY, int power)
 }
 
-interface PropFactory{
-    {abstract} createOperation():AbstractBoosterPacks
-}
-
-class PropBombFactory implements PropFactory{
-    + createPropBomb():AbstractBoosterPacks
-}
-
-class PropBloodFactory implements PropFactory{
-    + createPropBlood():AbstractBoosterPacks
-}
-
-class PropBulletFactory implements PropFactory{
-    + createPropBullet():AbstractBoosterPacks
-}
 
 class PropBlood{
-    + PropBlood(int locationX, int locationY)
+    + PropBlood(int locationX, int locationY, int speedX, int speedY)
 }
 
 class PropBomb{
-    + PropBomb(int locationX, int locationY)
+    + PropBomb(int locationX, int locationY, int speedX, int speedY)
 }
 
 class PropBullet{
-    + PropBullet(int locationX, int locationY)
+    + PropBullet(int locationX, int locationY, int speedX, int speedY)
 }
 
 @enduml
