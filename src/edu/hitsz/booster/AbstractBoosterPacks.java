@@ -4,10 +4,16 @@ import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
 
-
+/**
+ * 抽象道具包类
+ * @author Zhoudanni
+ */
 public abstract class AbstractBoosterPacks extends AbstractFlyingObject {
 
-    //抽象福利方法，每个子类继承该方法
+    /**抽象福利方法，每个子类继承该方法
+     *
+     * @param aircraft 某种类型的敌机
+     */
     public abstract void bonus(AbstractAircraft aircraft);
 
     public AbstractBoosterPacks(int locationX, int locationY, int speedX, int speedY) {
