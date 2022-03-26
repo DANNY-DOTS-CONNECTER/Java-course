@@ -5,6 +5,11 @@ import edu.hitsz.application.Main;
 
 import static edu.hitsz.application.Main.WINDOW_WIDTH;
 
+/**
+ * 普通敌机工厂
+ *
+ * @author Zhoudanni
+ */
 public class MobEnemyFactory implements EnemyFactory{
     @Override
     public AbstractEnemy createOperation() {

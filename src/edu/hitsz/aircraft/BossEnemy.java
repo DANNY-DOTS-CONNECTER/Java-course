@@ -4,6 +4,10 @@ import edu.hitsz.bullet.AbstractBullet;
 
 import java.util.List;
 
+/**
+ * BOSS敌机类
+ * @author Zhoudanni
+ */
 public class BossEnemy extends AbstractEnemy{
 
     //暂时没有使用该类
