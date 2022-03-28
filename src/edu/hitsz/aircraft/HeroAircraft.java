@@ -13,7 +13,7 @@ import static edu.hitsz.application.Main.WINDOW_WIDTH;
 /**
  * 英雄飞机，游戏玩家操控
  *
- * @author hitsz
+ * @author Zhoudanni
  */
 public class HeroAircraft extends AbstractAircraft {
 
@@ -31,7 +31,7 @@ public class HeroAircraft extends AbstractAircraft {
      * 子弹射击方向 (向上发射：1，向下发射：-1)
      * 注意向上/向下是相对y轴位置
      */
-    private int direction = -1;
+    private final int direction = -1;
 
     private static HeroAircraft instance = null;
 
@@ -66,11 +66,13 @@ public class HeroAircraft extends AbstractAircraft {
         // 英雄机由鼠标控制，不通过forward函数移动
     }
 
-    @Override
+
     /**
      * 通过射击产生子弹
+     *
      * @return 射击出的子弹List
      */
+    @Override
     public List<AbstractBullet> shoot() {
         List<AbstractBullet> res = new LinkedList<>();
         int x = this.getLocationX();

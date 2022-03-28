@@ -60,11 +60,19 @@ public abstract class AbstractFlyingObject {
      */
     protected boolean isValid = true;
 
-    //无参构造方法
+    /**
+     * 无参构造方法
+     */
     public AbstractFlyingObject() {
     }
 
-    //带参构造方法
+    /**
+     * 带参构造方法
+     * @param locationX X坐标
+     * @param locationY Y坐标
+     * @param speedX X方向速度
+     * @param speedY Y方向速度
+     */
     public AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY) {
         this.locationX = locationX;
         this.locationY = locationY;
