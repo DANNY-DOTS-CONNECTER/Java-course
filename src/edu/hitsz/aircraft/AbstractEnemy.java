@@ -1,9 +1,6 @@
 package edu.hitsz.aircraft;
 
 import edu.hitsz.application.Main;
-import edu.hitsz.bullet.AbstractBullet;
-
-import java.util.List;
 
 /**
  * 所有敌机的抽象父类（MOB,ELITE,BOSS）

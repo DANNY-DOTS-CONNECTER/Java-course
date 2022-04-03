@@ -31,15 +31,14 @@ public class Game extends JPanel {
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private int timeInterval = 40;
+    private final int timeInterval = 40;
 
     private final HeroAircraft heroAircraft;
     private final List<AbstractAircraft> enemyAircrafts;
     private final List<AbstractBullet> heroBullets;
     private final List<AbstractBullet> enemyBullets;
-    private final List<AbstractBoosterPacks> boosterPacks;//道具包
-    EnemyFactory enemyFactory;
-    PropFactory propFactory;
+    private final List<AbstractBoosterPacks> boosterPacks;
+    private EnemyFactory enemyFactory;
 
     private int enemyMaxNumber = 5;
 
@@ -61,10 +60,10 @@ public class Game extends JPanel {
         enemyBullets = new LinkedList<>();
         boosterPacks = new LinkedList<>();
 
-        /**
-         * Scheduled 线程池，用于定时任务调度
-         * 关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
-         * apache 第三方库： org.apache.commons.lang3.concurrent.BasicThreadFactory
+        /*
+          Scheduled 线程池，用于定时任务调度
+          关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
+          apache 第三方库： org.apache.commons.lang3.concurrent.BasicThreadFactory
          */
         this.executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
@@ -90,7 +89,9 @@ public class Game extends JPanel {
                 // 新普通敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     //每隔一段时间随机产生一架普通敌机或精英敌机
-                    if (Math.random() >= 0.8) {
+                    //精英敌机产生概率为0.8
+                    double portion = 0.8;
+                    if (Math.random() >= portion) {
                         //产生精英敌机的概率会低一些
                         enemyFactory = new EliteEnemyFactory();
                         enemyAircrafts.add(enemyFactory.createOperation());
@@ -158,11 +159,12 @@ public class Game extends JPanel {
     }
 
     private void shootAction() {
-        // TODO 精英敌机射击
-        for (AbstractAircraft eliteEnemy : enemyAircrafts) {
-            enemyBullets.addAll(eliteEnemy.shoot());
+        //敌机射击
+        for(AbstractAircraft enemyAircraft: enemyAircrafts){
+            if(enemyAircraft instanceof EliteEnemy || enemyAircraft instanceof BossEnemy) {
+                enemyBullets.addAll(enemyAircraft.shoot());
+            }
         }
-
         // 英雄射击
         heroBullets.addAll(heroAircraft.shoot());
     }
@@ -234,20 +236,16 @@ public class Game extends JPanel {
                         // TODO 获得分数，产生道具补给
                         //如果是精英敌机产生道具
                         if (enemyAircraft.getClass() == EliteEnemy.class) {
-                            double num = Math.random();
-                            if (num > 0.7) {
-                                propFactory = new PropBloodFactory();
-                                boosterPacks.add(propFactory.createOperation(enemyAircraft.getLocationX(),enemyAircraft.getLocationY()));
-                            } else if (num > 0.5) {
-                                propFactory = new PropBombFactory();
-                                boosterPacks.add(propFactory.createOperation(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
-                            } else if (num > 0.3) {
-                                propFactory = new PropBulletFactory();
-                                boosterPacks.add(propFactory.createOperation(enemyAircraft.getLocationX(), enemyAircraft.getLocationY()));
+                            AbstractBoosterPacks booster = ((EliteEnemy) enemyAircraft).createProp();
+                            if(booster!= null){
+                                boosterPacks.add(booster);
                             }
+                            //精英敌机加20分
                             score += 20;
-                        } else
-                            score += 10;//普通敌机加10分
+                        } else {
+                            //普通敌机加10分
+                            score += 10;
+                        }
                     }
                 }
 
@@ -260,14 +258,14 @@ public class Game extends JPanel {
         }
 
         // Todo: 我方获得道具，道具生效
-        for (AbstractBoosterPacks BoosterPacks : boosterPacks) {
-            if (BoosterPacks.notValid()) {
+        for (AbstractBoosterPacks boosterPack : boosterPacks) {
+            if (boosterPack.notValid()) {
                 //避免重复加同一个道具
                 continue;
             }
-            if (BoosterPacks.crash(heroAircraft)) {
-                BoosterPacks.bonus(heroAircraft);
-                BoosterPacks.vanish();
+            if (boosterPack.crash(heroAircraft)) {
+                boosterPack.bonus(heroAircraft);
+                boosterPack.vanish();
             }
         }
     }
@@ -297,7 +295,7 @@ public class Game extends JPanel {
      * 重写paint方法
      * 通过重复调用paint方法，实现游戏动画
      *
-     * @param g
+     * @param g 画笔
      */
     @Override
     public void paint(Graphics g) {
@@ -344,15 +342,10 @@ public class Game extends JPanel {
     private void paintScoreAndLife(Graphics g) {
         int x = 10;
         int y = 25;
-        g.setColor(new Color(16711680));
+        g.setColor(new Color(0xFF0000));
         g.setFont(new Font("SansSerif", Font.BOLD, 22));
         g.drawString("SCORE:" + this.score, x, y);
         y = y + 20;
         g.drawString("LIFE:" + this.heroAircraft.getHp(), x, y);
-//        if(gameOverFlag){
-//            g.drawString("Game Over!", WINDOW_WIDTH - 50 , WINDOW_HEIGHT);
-//        }
     }
-
-
 }
