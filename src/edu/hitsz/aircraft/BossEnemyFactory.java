@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
+import edu.hitsz.trajectory.BossScatteredTrajectory;
 
 import static edu.hitsz.application.Main.WINDOW_WIDTH;
 
@@ -23,6 +24,6 @@ public class BossEnemyFactory implements EnemyFactory {
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 speedX,
                 0,
-                60);
+                60, new BossScatteredTrajectory());
     }
 }
