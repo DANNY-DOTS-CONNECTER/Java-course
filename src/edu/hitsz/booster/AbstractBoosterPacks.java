@@ -1,6 +1,6 @@
 package edu.hitsz.booster;
 
-import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
 
@@ -14,7 +14,7 @@ public abstract class AbstractBoosterPacks extends AbstractFlyingObject {
      *
      * @param aircraft 某种类型的敌机
      */
-    public abstract void bonus(AbstractAircraft aircraft);
+    public abstract void bonus(HeroAircraft aircraft);
 
     public AbstractBoosterPacks(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);

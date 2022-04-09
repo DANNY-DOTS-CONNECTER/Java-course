@@ -1,6 +1,6 @@
 package edu.hitsz.booster;
 
-import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.HeroAircraft;
 
 /**
  * 加血包类
@@ -13,7 +13,7 @@ public class PropBlood extends AbstractBoosterPacks{
     }
 
     @Override
-    public void bonus(AbstractAircraft aircraft) {
+    public void bonus(HeroAircraft aircraft) {
         int blood = aircraft.getHp();
         blood += 10;
         aircraft.setHp(blood);

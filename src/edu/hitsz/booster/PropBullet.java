@@ -1,6 +1,7 @@
 package edu.hitsz.booster;
 
-import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.trajectory.HeroScatteredTrajectory;
 
 /**
  * 加子弹数量包类
@@ -12,8 +13,11 @@ public class PropBullet extends AbstractBoosterPacks{
         super(locationX, locationY, speedX, speedY);
     }
 
+
     @Override
-    public void bonus(AbstractAircraft aircraft) {
+    public void bonus(HeroAircraft aircraft) {
+        //TODO 英雄机碰到道具改变弹道
+        aircraft.setStrategy(new HeroScatteredTrajectory());
         System.out.println("FireSupply active!");
     }
 }

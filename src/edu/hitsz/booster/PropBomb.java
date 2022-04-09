@@ -1,6 +1,6 @@
 package edu.hitsz.booster;
 
-import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.HeroAircraft;
 
 /**
  * 加炸弹包类
@@ -13,7 +13,7 @@ public class PropBomb extends AbstractBoosterPacks{
     }
 
     @Override
-    public void bonus(AbstractAircraft aircraft) {
+    public void bonus(HeroAircraft aircraft) {
         System.out.println("BombSupply active!");
     }
 }
