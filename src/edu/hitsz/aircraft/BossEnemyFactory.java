@@ -24,6 +24,6 @@ public class BossEnemyFactory implements EnemyFactory {
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 speedX,
                 0,
-                60, new BossScatteredTrajectory());
+                100, new BossScatteredTrajectory());
     }
 }
