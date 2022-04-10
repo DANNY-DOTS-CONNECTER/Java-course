@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Interface Strategy{
+    + {abstract} selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
+}
+
+class HeroStraightTrajectory implements Strategy{
+    + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
+}
+
+class HeroScatteredTrajectory implements Strategy{
+    + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
+}
+
+class BossScatteredTrajectory implements Strategy{
+    + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
+}
+
+class BossStraightTrajectory implements Strategy{
+    + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
+}
+
+class HeroAircraft{
+    - strategy:Strategy
+    - {static} instance:HeroAircraft
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, Strategy strategy)
+    + {static} getInstance():HeroAircraft
+    + forward():void
+    + setStrategy(Strategy strategy):void
+    + shoot():List<AbstractBullet>
+}
+
+class Game{
+}
+
+Game ..> HeroAircraft
+HeroAircraft o-->Strategy
+
+
+@enduml
