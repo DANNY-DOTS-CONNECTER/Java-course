@@ -26,7 +26,7 @@ public class EliteEnemyFactory implements EnemyFactory {
 
         return new EliteEnemy((int) (Math.random() * (WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth())),
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2), speedX,
-                3, 60);
+                7, 60);
     }
 
 }

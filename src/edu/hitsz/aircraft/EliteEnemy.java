@@ -43,7 +43,7 @@ public class EliteEnemy extends AbstractEnemy {
         int x = this.getLocationX();
         int y = this.getLocationY() + direction * 20;
         int speedX = 0;
-        int speedY = this.getSpeedY() + direction * 5;
+        int speedY = this.getSpeedY() + direction * 10;
         AbstractBullet abstractBullet;
         abstractBullet = new EnemyBullet(x, y, speedX, speedY, power);
         res.add(abstractBullet);

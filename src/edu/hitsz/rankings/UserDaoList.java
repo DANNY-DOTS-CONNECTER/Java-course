@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Zhoudanni
  */
-public class UserDaoList implements UserDao{
+public class UserDaoList implements UserDao {
 
     File file = new File("src\\rankings.txt");
 
@@ -30,12 +30,12 @@ public class UserDaoList implements UserDao{
     @Override
     public void addUser(User user) throws IOException {
         //output
-        FileOutputStream fos = new FileOutputStream(file,true);
+        FileOutputStream fos = new FileOutputStream(file, true);
         MyObjectOutputStream oos = new MyObjectOutputStream(fos);
-        try{
+        try {
             oos.writeObject(user);
             oos.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         fos.close();
@@ -53,8 +53,8 @@ public class UserDaoList implements UserDao{
         System.out.println("******************************");
         System.out.println("           得分排行榜          ");
         System.out.println("******************************");
-        for(int i = 0; i < users.size(); i++){
-            System.out.println("第"+(i+1)+"名：" + users.get(i).toString() );
+        for (int i = 0; i < users.size(); i++) {
+            System.out.println("第" + (i + 1) + "名：" + users.get(i).toString());
         }
     }
 }

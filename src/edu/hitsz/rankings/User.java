@@ -43,6 +43,11 @@ public class User implements Serializable, Comparable<User> {
         this.name = name;
     }
 
+    /**
+     * 排序返回从高到低的数据
+     * @param o 用户
+     * @return 用户分数差
+     */
     @Override
     public int compareTo(User o) {
         return o.getScore() - this.getScore();

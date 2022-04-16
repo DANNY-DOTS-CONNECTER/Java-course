@@ -10,8 +10,8 @@ import edu.hitsz.basic.AbstractFlyingObject;
  */
 public abstract class AbstractBoosterPacks extends AbstractFlyingObject {
 
-    /**抽象福利方法，每个子类继承该方法
-     *
+    /**
+     *抽象福利方法，每个子类继承该方法
      * @param aircraft 某种类型的敌机
      */
     public abstract void bonus(HeroAircraft aircraft);

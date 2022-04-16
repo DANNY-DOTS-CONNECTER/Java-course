@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 /**
+ * 改写ObjectOutputStream类的writeStreamHeader方法，避免读Header
  * @author Zhoudanni
  */
 public class MyObjectOutputStream extends ObjectOutputStream {

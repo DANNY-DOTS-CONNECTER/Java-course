@@ -10,7 +10,7 @@ public interface UserDao {
 
     /**
      * 返回一个拥有所有用户信息的List
-     * @return List<User>
+     * @return 用户名单List<User>
      * @throws IOException IO流异常
      * @throws ClassNotFoundException 找不到该类异常
      */

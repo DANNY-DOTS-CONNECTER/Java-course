@@ -1,10 +1,10 @@
 package edu.hitsz.booster;
 
 import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.trajectory.HeroScatteredTrajectory;
+import edu.hitsz.trajectory.ScatteredTrajectory;
 
 /**
- * 加子弹数量包类
+ * 改变子弹弹道类
  * @author Zhoudanni
  */
 public class PropBullet extends AbstractBoosterPacks{
@@ -13,11 +13,17 @@ public class PropBullet extends AbstractBoosterPacks{
         super(locationX, locationY, speedX, speedY);
     }
 
-
     @Override
-    public void bonus(HeroAircraft aircraft) {
+    public void bonus(HeroAircraft heroAircraft) {
         //TODO 英雄机碰到道具改变弹道
-        aircraft.setStrategy(new HeroScatteredTrajectory());
-        System.out.println("FireSupply active!");
+        int curShootNum = heroAircraft.getShootNum();
+        heroAircraft.setStrategy(new ScatteredTrajectory());
+        int maxShootNum = 3;
+        if(curShootNum < maxShootNum){
+            heroAircraft.increaseShootNum();
+            System.out.println("increase 1 bullet");
+        }else{
+            System.out.println("reached the maximum shoot number");
+        }
     }
 }

@@ -16,7 +16,7 @@ public class MobEnemyFactory implements EnemyFactory{
         return new MobEnemy((int) (Math.random() * (WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 0,
-                6,
+                10,
                 30);
     }
 }

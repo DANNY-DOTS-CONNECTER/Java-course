@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 
 /**
+ * 改写ObjectInputStream类的readStreamHeader方法，避免每次添加User都生成StreamHeader造成错误
  * @author Zhoudanni
  */
 public class MyObjectInputStream extends ObjectInputStream {
@@ -14,7 +15,7 @@ public class MyObjectInputStream extends ObjectInputStream {
     }
 
     @Override
-    protected void readStreamHeader() throws IOException {
+    protected void readStreamHeader() {
     }
 
 }
