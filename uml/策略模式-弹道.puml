@@ -5,19 +5,11 @@ Interface Strategy{
     + {abstract} selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
 }
 
-class HeroStraightTrajectory implements Strategy{
+class StraightTrajectory implements Strategy{
     + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
 }
 
-class HeroScatteredTrajectory implements Strategy{
-    + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
-}
-
-class BossScatteredTrajectory implements Strategy{
-    + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
-}
-
-class BossStraightTrajectory implements Strategy{
+class ScatteredTrajectory implements Strategy{
     + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
 }
 
@@ -31,11 +23,16 @@ class HeroAircraft{
     + shoot():List<AbstractBullet>
 }
 
+class BossEnemyFactory {
+    + createOperation():AbstractEnemy
+}
+
 class Game{
 }
 
 Game ..> HeroAircraft
-HeroAircraft o-->Strategy
-
+Game ..> BossEnemyFactory
+HeroAircraft o--> Strategy
+BossEnemyFactory o--> Strategy
 
 @enduml
