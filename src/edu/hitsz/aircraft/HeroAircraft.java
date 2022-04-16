@@ -3,7 +3,7 @@ package edu.hitsz.aircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.trajectory.HeroStraightTrajectory;
+import edu.hitsz.trajectory.StraightTrajectory;
 import edu.hitsz.trajectory.Strategy;
 import java.util.List;
 import static edu.hitsz.application.Main.WINDOW_WIDTH;
@@ -18,7 +18,7 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 子弹一次发射数量
      */
-    private int shootNum = 3;
+    private int shootNum = 1;
 
     /**
      * 子弹伤害
@@ -54,7 +54,7 @@ public class HeroAircraft extends AbstractAircraft {
                 if (instance == null) {
                     instance = new HeroAircraft(WINDOW_WIDTH / 2,
                             Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                            0, 0, 100, new HeroStraightTrajectory() {
+                            0, 0, 1000, new StraightTrajectory() {
                     });
                 }
             }
@@ -67,9 +67,16 @@ public class HeroAircraft extends AbstractAircraft {
         // 英雄机由鼠标控制，不通过forward函数移动
     }
 
+    public int getShootNum() {
+        return shootNum;
+    }
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
+    }
+
+    public void increaseShootNum(){
+        shootNum += 1;
     }
 
     /**

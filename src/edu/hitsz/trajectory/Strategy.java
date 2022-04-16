@@ -1,11 +1,11 @@
 package edu.hitsz.trajectory;
 
-import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.bullet.AbstractBullet;
 
 import java.util.List;
 
 /**
+ * 策略接口
  * @author Zhoudanni
  */
 public interface Strategy {
@@ -16,7 +16,7 @@ public interface Strategy {
      * @param shootNum 发射子弹数量
      * @param direction 方向
      * @param power 火力
-     * @return 子弹
+     * @return 子弹list
      */
     List<AbstractBullet> selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power);
 }

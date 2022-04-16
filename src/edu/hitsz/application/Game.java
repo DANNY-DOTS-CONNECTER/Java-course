@@ -46,7 +46,7 @@ public class Game extends JPanel {
     private UserDao userDao;
 
     private int enemyMaxNumber = 5;
-    private int bossScoreThreshold = 100;
+    private int bossScoreThreshold = 300;
 
     private boolean gameOverFlag = false;
     private int score = 0;
@@ -56,7 +56,7 @@ public class Game extends JPanel {
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
      */
-    private int cycleDuration = 600;
+    private int cycleDuration = 500;
     private int cycleTime = 0;
 
 
@@ -97,7 +97,7 @@ public class Game extends JPanel {
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     //每隔一段时间随机产生一架普通敌机或精英敌机
                     //精英敌机产生概率为0.8
-                    double portion = 0.8;
+                    double portion = 0.9;
                     if (Math.random() >= portion) {
                         //产生精英敌机的概率会低一些
                         enemyFactory = new EliteEnemyFactory();
@@ -112,12 +112,16 @@ public class Game extends JPanel {
                 shootAction();
             }
 
-            //产生boss敌机，放在if (timeCountAndNewCycleJudge())外面
+            //产生boss敌机，放在if (timeCountAndNewCycleJudge())外面，否则达到分数也会等一会儿才会创建boss敌机
             if (bossFlag && score > bossScoreThreshold) {
                 BossEnemyFactory bossEnemyFactory = new BossEnemyFactory();
                 enemyAircrafts.add(bossEnemyFactory.createOperation());
                 bossFlag = false;
-                bossScoreThreshold += 100;
+                if(score < 500){
+                    bossScoreThreshold += 300;
+                }else {
+                    bossScoreThreshold += 200;
+                }
             }
 
             // 子弹移动
@@ -263,7 +267,7 @@ public class Game extends JPanel {
                                 boosterPacks.add(booster);
                             }
                             //精英敌机加20分
-                            score += 20;
+                            score += 15;
                         } else if(enemyAircraft.getClass() == MobEnemy.class){
                             //普通敌机加10分
                             score += 10;
