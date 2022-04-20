@@ -45,7 +45,7 @@ public class Game extends JPanel {
     private EnemyFactory enemyFactory;
     private UserDao userDao;
 
-    private int enemyMaxNumber = 5;
+    private final int enemyMaxNumber = 5;
     private int bossScoreThreshold = 300;
 
     private boolean gameOverFlag = false;
@@ -117,11 +117,7 @@ public class Game extends JPanel {
                 BossEnemyFactory bossEnemyFactory = new BossEnemyFactory();
                 enemyAircrafts.add(bossEnemyFactory.createOperation());
                 bossFlag = false;
-                if(score < 500){
-                    bossScoreThreshold += 300;
-                }else {
-                    bossScoreThreshold += 200;
-                }
+                bossScoreThreshold += 300;
             }
 
             // 子弹移动
@@ -145,14 +141,16 @@ public class Game extends JPanel {
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-                gameOverFlag = true;//上下两句调换过位置
+                //上下两句调换过位置
+                gameOverFlag = true;
                 executorService.shutdown();
 
-                User user = new User("test",score, new Date());
-                try{
+                //添加游戏用户信息
+                User user = new User("test", score, new Date());
+                try {
                     userDao.addUser(user);
                     userDao.printUserRanking();
-                }catch (IOException | ClassNotFoundException e){
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
                 System.out.println("Game Over!");
@@ -229,7 +227,6 @@ public class Game extends JPanel {
      */
     private void crashCheckAction() {
 
-        // TODO 敌机子弹攻击英雄
         for (AbstractBullet bullet : enemyBullets) {
             if (bullet.notValid()) {
                 continue;
@@ -268,15 +265,11 @@ public class Game extends JPanel {
                             }
                             //精英敌机加20分
                             score += 15;
-                        } else if(enemyAircraft.getClass() == MobEnemy.class){
+                        } else if (enemyAircraft.getClass() == MobEnemy.class) {
                             //普通敌机加10分
                             score += 10;
-                        }else if (enemyAircraft.getClass() == BossEnemy.class){
-                            //Boss敌机产生道具*2
-                            AbstractBoosterPacks booster = ((BossEnemy) enemyAircraft).createProp();
-                            AbstractBoosterPacks booster2 = ((BossEnemy) enemyAircraft).createProp();
-                            boosterPacks.add(booster);
-                            boosterPacks.add(booster2);
+                        } else if (enemyAircraft.getClass() == BossEnemy.class) {
+                            boosterPacks.addAll(((BossEnemy) enemyAircraft).createProp());
                             score += 25;
                             bossFlag = true;
                         }

@@ -6,6 +6,7 @@ import java.util.Date;
 
 
 /**
+ * 用户类
  * @author Zhoudanni
  */
 public class User implements Serializable, Comparable<User> {

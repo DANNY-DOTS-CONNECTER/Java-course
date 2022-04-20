@@ -9,9 +9,10 @@ import java.util.List;
 
 /**
  * 散射弹道
+ *
  * @author Zhoudanni
  */
-public class ScatteredTrajectory implements Strategy{
+public class ScatteredTrajectory implements Strategy {
 
     @Override
     public List<AbstractBullet> selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power) {
@@ -22,10 +23,9 @@ public class ScatteredTrajectory implements Strategy{
         boolean isHero = (direction == -1);
         for (int i = 0; i < shootNum; i++) {
             // 多个子弹横向分散发射
-            if(isHero){
+            if (isHero) {
                 abstractBullet = new HeroBullet(locationX + (i * 2 - shootNum + 1) * 10, y, i * 2 - shootNum + 1, speedY, power);
-            }
-            else {
+            } else {
                 abstractBullet = new EnemyBullet(locationX + (i * 2 - shootNum + 1) * 10, y, i * 2 - shootNum + 1, speedY, power);
             }
             res.add(abstractBullet);

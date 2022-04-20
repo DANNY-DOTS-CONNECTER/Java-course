@@ -41,6 +41,9 @@ public class UserDaoList implements UserDao {
         fos.close();
     }
 
+    /**
+     * 暂时没有使用这个方法
+     */
     @Override
     public void deleteRecord(User user) {
 

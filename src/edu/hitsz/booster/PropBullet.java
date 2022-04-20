@@ -18,6 +18,7 @@ public class PropBullet extends AbstractBoosterPacks{
         //TODO 英雄机碰到道具改变弹道
         int curShootNum = heroAircraft.getShootNum();
         heroAircraft.setStrategy(new ScatteredTrajectory());
+        //设置最大子弹数量为3
         int maxShootNum = 3;
         if(curShootNum < maxShootNum){
             heroAircraft.increaseShootNum();
