@@ -4,8 +4,9 @@ import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.trajectory.StraightTrajectory;
-import edu.hitsz.trajectory.Strategy;
+
 import java.util.List;
+
 import static edu.hitsz.application.Main.WINDOW_WIDTH;
 
 /**
@@ -15,25 +16,8 @@ import static edu.hitsz.application.Main.WINDOW_WIDTH;
  */
 public class HeroAircraft extends AbstractAircraft {
 
-    /**
-     * 子弹一次发射数量
-     */
-    private int shootNum = 1;
-
-    /**
-     * 子弹伤害
-     */
-    private int power = 30;
-
-    /**
-     * 子弹射击方向 (向上发射：1，向下发射：-1)
-     * 注意向上/向下是相对y轴位置
-     */
-    private final int direction = -1;
-
     private static HeroAircraft instance = null;
 
-    private Strategy strategy;
     /**
      * 单例模式创建英雄机
      *
@@ -42,10 +26,14 @@ public class HeroAircraft extends AbstractAircraft {
      * @param speedX    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param speedY    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param hp        初始生命值
+     *
      */
-    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, Strategy strategy) {
+    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
-        this.strategy = strategy;
+        this.strategy = new StraightTrajectory();
+        this.power = 30;
+        this.direction = -1;
+        this.shootNum = 1;
     }
 
     public static synchronized HeroAircraft getInstance() {
@@ -54,8 +42,7 @@ public class HeroAircraft extends AbstractAircraft {
                 if (instance == null) {
                     instance = new HeroAircraft(WINDOW_WIDTH / 2,
                             Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                            0, 0, 1000, new StraightTrajectory() {
-                    });
+                            0, 0, 1000);
                 }
             }
         }
@@ -69,10 +56,6 @@ public class HeroAircraft extends AbstractAircraft {
 
     public int getShootNum() {
         return shootNum;
-    }
-
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
     }
 
     public void increaseShootNum(){

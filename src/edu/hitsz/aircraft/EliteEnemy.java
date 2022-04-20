@@ -1,11 +1,8 @@
 package edu.hitsz.aircraft;
+
 import edu.hitsz.booster.*;
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.trajectory.StraightTrajectory;
 
-
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,39 +12,12 @@ import java.util.Random;
  */
 public class EliteEnemy extends AbstractEnemy {
 
-
-//    private int shootNum = 1;
-
-    /**
-     * 子弹伤害
-     * 精英敌机设定为10
-     */
-    private final int power = 10;
-
-    /**
-     * 子弹射击方向 (向上发射：1，向下发射：-1)
-     * 此处定义为向上发射（相对y轴）
-     */
-    private final int direction = 1;
-
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
-    }
-
-    /**
-     * 重写shoot()方法，返回子弹
-     */
-    @Override
-    public List<AbstractBullet> shoot() {
-        List<AbstractBullet> res = new LinkedList<>();
-        int x = this.getLocationX();
-        int y = this.getLocationY() + direction * 20;
-        int speedX = 0;
-        int speedY = this.getSpeedY() + direction * 10;
-        AbstractBullet abstractBullet;
-        abstractBullet = new EnemyBullet(x, y, speedX, speedY, power);
-        res.add(abstractBullet);
-        return res;
+        this.shootNum = 1;
+        this.direction = 1;
+        this.power = 10;
+        this.strategy = new StraightTrajectory();
     }
 
     private PropFactory propFactory;
@@ -60,6 +30,7 @@ public class EliteEnemy extends AbstractEnemy {
     public AbstractBoosterPacks createProp(){
         Random r = new Random();
         double randomNumber = r.nextDouble();
+        //掉落道具的概率设置为0.5
         double portion = 0.5;
         if(randomNumber < portion){
             int propRandom = r.nextInt(3);
