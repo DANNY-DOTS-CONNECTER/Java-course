@@ -13,26 +13,27 @@ class ScatteredTrajectory implements Strategy{
     + selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power):List<AbstractBullet>
 }
 
-class HeroAircraft{
-    - strategy:Strategy
-    - {static} instance:HeroAircraft
-    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, Strategy strategy)
-    + {static} getInstance():HeroAircraft
-    + forward():void
-    + setStrategy(Strategy strategy):void
+abstract class AbstractAircraft
+{
+	# maxHp:int
+    # hp:int
+    ~ shootNum:int
+    ~ power:int
+    ~ direction:int
+    ~ strategy:Strategy
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + setHp(int hp):void
     + shoot():List<AbstractBullet>
-}
-
-class BossEnemyFactory {
-    + createOperation():AbstractEnemy
-}
+    + setStrategy(Strategy strategy):void
+ }
 
 class Game{
 }
 
-Game ..> HeroAircraft
-Game ..> BossEnemyFactory
-HeroAircraft o--> Strategy
-BossEnemyFactory o--> Strategy
+Game..> AbstractAircraft
+AbstractAircraft o--> Strategy
+
 
 @enduml
