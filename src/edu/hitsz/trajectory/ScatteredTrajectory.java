@@ -1,5 +1,7 @@
 package edu.hitsz.trajectory;
 
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.bullet.HeroBullet;
@@ -15,15 +17,17 @@ import java.util.List;
 public class ScatteredTrajectory implements Strategy {
 
     @Override
-    public List<AbstractBullet> selectTrajectory(int locationX, int locationY, int shootNum, int direction, int power) {
+    public List<AbstractBullet> selectTrajectory(AbstractAircraft aircraft) {
         List<AbstractBullet> res = new LinkedList<>();
-        int y = locationY + direction * 10;
-        int speedY = direction * 5;
+        int y = aircraft.getLocationY() + aircraft.getDirection() * 5;
+        int speedY = aircraft.getDirection() * 5;
+        int locationX = aircraft.getLocationX();
+        int shootNum = aircraft.getShootNum();
+        int power = aircraft.getPower();
         AbstractBullet abstractBullet;
-        boolean isHero = (direction == -1);
-        for (int i = 0; i < shootNum; i++) {
+        for (int i = 0; i < aircraft.getShootNum(); i++) {
             // 多个子弹横向分散发射
-            if (isHero) {
+            if (aircraft.getClass() == HeroAircraft.class) {
                 abstractBullet = new HeroBullet(locationX + (i * 2 - shootNum + 1) * 10, y, i * 2 - shootNum + 1, speedY, power);
             } else {
                 abstractBullet = new EnemyBullet(locationX + (i * 2 - shootNum + 1) * 10, y, i * 2 - shootNum + 1, speedY, power);
@@ -32,4 +36,5 @@ public class ScatteredTrajectory implements Strategy {
         }
         return res;
     }
+
 }

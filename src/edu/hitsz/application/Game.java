@@ -185,11 +185,11 @@ public class Game extends JPanel {
         //敌机射击
         for (AbstractAircraft enemyAircraft : enemyAircrafts) {
             if (enemyAircraft instanceof EliteEnemy || enemyAircraft instanceof BossEnemy) {
-                enemyBullets.addAll(enemyAircraft.shoot());
+                enemyBullets.addAll(enemyAircraft.shoot(enemyAircraft));
             }
         }
         // 英雄射击
-        heroBullets.addAll(heroAircraft.shoot());
+        heroBullets.addAll(heroAircraft.shoot(heroAircraft));
     }
 
     private void bulletsMoveAction() {

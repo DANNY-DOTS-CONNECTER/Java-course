@@ -33,7 +33,7 @@ class EliteEnemyTest {
     @Test
     @DisplayName("EliteEnemy_shootTest")
     void shootTest() {
-        assertNotNull(eliteEnemy.shoot());
+        assertNotNull(eliteEnemy.shoot(eliteEnemy));
     }
 
     @ParameterizedTest

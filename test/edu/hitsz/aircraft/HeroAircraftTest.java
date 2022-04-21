@@ -34,6 +34,6 @@ class HeroAircraftTest {
     @DisplayName("HeroAircraft_shoot_Test")
     void shootTest() {
         heroAircraft = HeroAircraft.getInstance();
-        assertNotNull(heroAircraft.shoot());
+        assertNotNull(heroAircraft.shoot(heroAircraft));
     }
 }

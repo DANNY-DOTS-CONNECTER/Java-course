@@ -66,14 +66,26 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         return shootNum;
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
     /**
      * 飞机射击方法，可射击对象必须实现
      * @return
      *  可射击对象需实现，返回子弹
      *  非可射击对象空实现，返回null
      */
-    public List<AbstractBullet> shoot() {
-        return strategy.selectTrajectory(locationX, locationY, shootNum, direction, power);
+    public List<AbstractBullet> shoot(AbstractAircraft aircraft) {
+        return strategy.selectTrajectory(aircraft);
     }
 }
 
