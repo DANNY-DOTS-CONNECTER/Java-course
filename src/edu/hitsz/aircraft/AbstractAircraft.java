@@ -62,6 +62,10 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         this.hp = hp;
     }
 
+    public int getShootNum() {
+        return shootNum;
+    }
+
     /**
      * 飞机射击方法，可射击对象必须实现
      * @return

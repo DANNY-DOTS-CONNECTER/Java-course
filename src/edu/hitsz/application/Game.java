@@ -117,7 +117,7 @@ public class Game extends JPanel {
                 BossEnemyFactory bossEnemyFactory = new BossEnemyFactory();
                 enemyAircrafts.add(bossEnemyFactory.createOperation());
                 bossFlag = false;
-                bossScoreThreshold += 300;
+                bossScoreThreshold += 500;
             }
 
             // 子弹移动

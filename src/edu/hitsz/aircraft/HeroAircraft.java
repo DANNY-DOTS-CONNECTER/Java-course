@@ -2,10 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
-import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.trajectory.StraightTrajectory;
-
-import java.util.List;
 
 import static edu.hitsz.application.Main.WINDOW_WIDTH;
 
@@ -54,21 +51,8 @@ public class HeroAircraft extends AbstractAircraft {
         // 英雄机由鼠标控制，不通过forward函数移动
     }
 
-    public int getShootNum() {
-        return shootNum;
-    }
-
     public void increaseShootNum(){
         shootNum += 1;
     }
 
-    /**
-     * 通过射击产生子弹
-     *
-     * @return 射击出的子弹List
-     */
-    @Override
-    public List<AbstractBullet> shoot() {
-        return strategy.selectTrajectory(locationX, locationY, shootNum, direction, power);
-    }
 }
