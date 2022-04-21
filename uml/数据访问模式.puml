@@ -8,6 +8,9 @@ Interface UserDao{
     {abstract} addUser(User user):void
 }
 
+Interface Comparable<User>{
+}
+
 Class UserDaoList implements UserDao{
     + getAllUserList():List<User>
     + deleteRecord(User user):void
@@ -15,7 +18,7 @@ Class UserDaoList implements UserDao{
     + addUser(User user):void
 }
 
-class User implements Serializable{
+class User implements Serializable, Comparable {
     - name:String
     - score:int
     - gameDate:Date
@@ -33,5 +36,6 @@ class Game{
 
 Game ..>UserDao
 UserDaoList -right-> User
+
 
 @enduml
