@@ -6,7 +6,8 @@ import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.rankings.User;
 import edu.hitsz.rankings.UserDao;
-import edu.hitsz.rankings.UserDaoList;
+import edu.hitsz.rankings.UserDaoImp;
+import edu.hitsz.trajectory.StraightTrajectory;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -24,6 +25,10 @@ import java.util.concurrent.*;
  * @author hitsz-zdn
  */
 public class Game extends JPanel {
+    /**
+     * 游戏难度设置
+     */
+    public static int level = 1;
 
     private int backGroundTop = 0;
 
@@ -51,7 +56,10 @@ public class Game extends JPanel {
     private boolean gameOverFlag = false;
     private int score = 0;
     private int time = 0;
-    private boolean bossFlag = true;
+    private boolean bossFlag = false;
+    private boolean propBulletWorking = false;
+    boolean newDataAddedFlag = false;
+
     /**
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
@@ -59,6 +67,8 @@ public class Game extends JPanel {
     private int cycleDuration = 500;
     private int cycleTime = 0;
 
+    private Thread bulletThread;
+    private final MusicThread[] musicThreads = new MusicThread[7];
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance();
@@ -66,7 +76,8 @@ public class Game extends JPanel {
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         boosterPacks = new LinkedList<>();
-        userDao = new UserDaoList();
+        userDao = new UserDaoImp();
+
         /*
           Scheduled 线程池，用于定时任务调度
           关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
@@ -74,6 +85,11 @@ public class Game extends JPanel {
          */
         this.executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
+
+        //TODO 0:bgm
+        MusicThread bgm = new MusicThread("src/videos/bgm.wav");
+        musicThreads[0] = bgm;
+        bgm.start();
 
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
@@ -113,11 +129,16 @@ public class Game extends JPanel {
             }
 
             //产生boss敌机，放在if (timeCountAndNewCycleJudge())外面，否则达到分数也会等一会儿才会创建boss敌机
-            if (bossFlag && score > bossScoreThreshold) {
+            if (!bossFlag && score > bossScoreThreshold) {
                 BossEnemyFactory bossEnemyFactory = new BossEnemyFactory();
                 enemyAircrafts.add(bossEnemyFactory.createOperation());
-                bossFlag = false;
+                bossFlag = true;
                 bossScoreThreshold += 500;
+
+                //TODO 1：bossBgm
+                MusicThread bossBgm = new MusicThread("src/videos/bgm_boss.wav");
+                musicThreads[1] = bossBgm;
+                bossBgm.start();
             }
 
             // 子弹移动
@@ -132,6 +153,9 @@ public class Game extends JPanel {
             // 撞击检测
             crashCheckAction();
 
+            //音效是否有效检测
+            musicCheckAction();
+
             // 后处理
             postProcessAction();
 
@@ -141,18 +165,46 @@ public class Game extends JPanel {
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
+                //TODO 5:game_over
+                MusicThread gameOverBgm = new MusicThread("src/videos/game_over.wav");
+                musicThreads[5] = gameOverBgm;
+                gameOverBgm.start();
+
+                //休眠50ms
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                for (MusicThread music : musicThreads) {
+                    if (music != null){
+                        music.setBreakPoint(true);
+                    }
+                }
+
                 //上下两句调换过位置
                 gameOverFlag = true;
                 executorService.shutdown();
 
                 //添加游戏用户信息
-                User user = new User("test", score, new Date());
-                try {
-                    userDao.addUser(user);
-                    userDao.printUserRanking();
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                String inputName = JOptionPane.showInputDialog("游戏结束，你的得分为：" + score + "\n输入姓名记录得分：");
+                if (inputName != null) {
+                    newDataAddedFlag = true;
+                    long id = System.currentTimeMillis();
+                    User user = new User(id, inputName, score, new Date());
+                    try {
+                        userDao.addUser(user);
+                        userDao.printUserRanking();
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+                synchronized (Main.lock) {
+                    Main.lock.notify();
+                }
+
                 System.out.println("Game Over!");
             }
 
@@ -178,6 +230,19 @@ public class Game extends JPanel {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void musicCheckAction() {
+        if (bossFlag && !musicThreads[1].isAlive()) {
+            MusicThread bossBgm = new MusicThread("src/videos/bgm_boss.wav");
+            musicThreads[1] = bossBgm;
+            bossBgm.start();
+        }
+        if (!musicThreads[0].isAlive()) {
+            MusicThread bgm = new MusicThread("src/videos/bgm.wav");
+            musicThreads[0] = bgm;
+            bgm.start();
         }
     }
 
@@ -253,6 +318,11 @@ public class Game extends JPanel {
                 if (enemyAircraft.crash(bullet)) {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
+                    //TODO 2:bullet_hit
+                    MusicThread hitBgm = new MusicThread("src/videos/bullet_hit.wav");
+                    musicThreads[2] = hitBgm;
+                    hitBgm.start();
+
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
@@ -269,9 +339,13 @@ public class Game extends JPanel {
                             //普通敌机加10分
                             score += 10;
                         } else if (enemyAircraft.getClass() == BossEnemy.class) {
+                            //boss机死亡，停止播放音乐
+                            musicThreads[1].setBreakPoint(true);
+                            musicThreads[1] = null;
+
                             boosterPacks.addAll(((BossEnemy) enemyAircraft).createProp());
                             score += 25;
-                            bossFlag = true;
+                            bossFlag = false;
                         }
                     }
                 }
@@ -291,7 +365,44 @@ public class Game extends JPanel {
                 continue;
             }
             if (boosterPack.crash(heroAircraft)) {
-                boosterPack.bonus(heroAircraft);
+                if (boosterPack instanceof PropBullet) {
+                    //TODO 3:get_supply
+                    MusicThread supplyBgm = new MusicThread("src/videos/get_supply.wav");
+                    musicThreads[3] = supplyBgm;
+                    supplyBgm.start();
+
+                    //终止上一个正在进行的bulletThread线程
+                    if (propBulletWorking) {
+                        bulletThread.stop();
+                    }
+                    boosterPack.bonus(heroAircraft);
+                    propBulletWorking = true;
+                    Runnable r = () -> {
+                        try {
+                            TimeUnit.SECONDS.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        heroAircraft.setShootNum(1);
+                        heroAircraft.setStrategy(new StraightTrajectory());
+                        propBulletWorking = false;
+                    };
+                    bulletThread = new Thread(r);
+                    bulletThread.start();
+                } else if (boosterPack instanceof PropBlood) {
+                    MusicThread supplyBgm = new MusicThread("src/videos/get_supply.wav");
+                    musicThreads[3] = supplyBgm;
+                    supplyBgm.start();
+
+                    boosterPack.bonus(heroAircraft);
+                } else if (boosterPack instanceof PropBomb) {
+                    //TODO 4:bombBgm
+                    MusicThread bombBgm = new MusicThread("src/videos/bomb_explosion.wav");
+                    musicThreads[4] = bombBgm;
+                    bombBgm.start();
+
+                    boosterPack.bonus(heroAircraft);
+                }
                 boosterPack.vanish();
             }
         }
