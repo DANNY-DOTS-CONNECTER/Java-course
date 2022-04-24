@@ -1,5 +1,8 @@
 package edu.hitsz.application;
 
+import edu.hitsz.swing.RankingPanel;
+import edu.hitsz.swing.StartPage;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,8 +14,10 @@ public class Main {
 
     public static final int WINDOW_WIDTH = 512;
     public static final int WINDOW_HEIGHT = 768;
+    public static final Object lock = new Object();
 
-    public static void main(String[] args) {
+    //这里添加过throws InterruptedException
+    public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Hello Aircraft War");
 
@@ -27,9 +32,46 @@ public class Main {
         //关闭窗口时停止游戏
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //新建一个startPage对象，创建起始页面
+        StartPage startPage = new StartPage();
+        JPanel startMainPage = startPage.getMainPanel();
+        frame.setContentPane(startMainPage);
+        frame.setVisible(true);
+
+        synchronized (Main.lock){
+            (Main.lock).wait();
+        }
+
+        frame.remove(startMainPage);
         Game game = new Game();
-        frame.add(game);
+        frame.setContentPane(game);
+        //TODO 这里可能有问题，问题在？
+//        frame.add(game);
         frame.setVisible(true);
         game.action();
+
+        synchronized (Main.lock){
+            (Main.lock).wait();
+        }
+
+        //新建一个rankingPanel对象，创建排行榜界面，如果用户选择不添加新数据，就展示原始界面
+        frame.remove(game);
+        RankingPanel rankingPanel = new RankingPanel();
+        JPanel rankingMainPanel = rankingPanel.getMainPanel();
+        frame.setContentPane(rankingMainPanel);
+        frame.setVisible(true);
+
+        synchronized (Main.lock){
+            (Main.lock).wait();
+        }
+
+        //用户选择添加新数据，刷新页面
+        if(game.newDataAddedFlag){
+            //重新new一下RankingPanel()
+            rankingPanel = new RankingPanel();
+            rankingMainPanel = rankingPanel.getMainPanel();
+            frame.setContentPane(rankingMainPanel);
+            frame.setVisible(true);
+        }
     }
 }
