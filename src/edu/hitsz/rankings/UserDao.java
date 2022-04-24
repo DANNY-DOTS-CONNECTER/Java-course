@@ -26,9 +26,11 @@ public interface UserDao {
 
     /**
      * 删除选中的游戏记录
-     * @param user 用户个人信息
+     * @param id 用户id
+     * @throws IOException IO流异常
+     * @throws ClassNotFoundException 找不到该类异常
      */
-    void deleteRecord(User user);
+    void deleteRecord(long id) throws IOException, ClassNotFoundException;
 
     /**
      * 排序并打印榜单
