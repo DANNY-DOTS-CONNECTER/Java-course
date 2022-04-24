@@ -14,6 +14,7 @@ import edu.hitsz.bullet.HeroBullet;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,10 +35,6 @@ public class ImageManager {
     private static final Map<String, BufferedImage> CLASSNAME_IMAGE_MAP = new HashMap<>();
 
     public static BufferedImage BACKGROUND_IMAGE;
-    public static BufferedImage BACKGROUND_IMAGE_2;
-    public static BufferedImage BACKGROUND_IMAGE_3;
-    public static BufferedImage BACKGROUND_IMAGE_4;
-    public static BufferedImage BACKGROUND_IMAGE_5;
     public static BufferedImage HERO_IMAGE;
     public static BufferedImage HERO_BULLET_IMAGE;
     public static BufferedImage ENEMY_BULLET_IMAGE;
@@ -52,10 +49,6 @@ public class ImageManager {
         try {
 
             BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
-            BACKGROUND_IMAGE_2 = ImageIO.read(new FileInputStream("src/images/bg2.jpg"));
-            BACKGROUND_IMAGE_3 = ImageIO.read(new FileInputStream("src/images/bg3.jpg"));
-            BACKGROUND_IMAGE_4 = ImageIO.read(new FileInputStream("src/images/bg4.jpg"));
-            BACKGROUND_IMAGE_5 = ImageIO.read(new FileInputStream("src/images/bg5.jpg"));
 
             HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/hero.png"));
             MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
@@ -96,4 +89,11 @@ public class ImageManager {
         return get(obj.getClass().getName());
     }
 
+    public static void setBackgroundImage(String file) {
+        try {
+            BACKGROUND_IMAGE = ImageIO.read(new File(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
