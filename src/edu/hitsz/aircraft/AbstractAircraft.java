@@ -66,6 +66,10 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         return shootNum;
     }
 
+    public void setShootNum(int shootNum) {
+        this.shootNum = shootNum;
+    }
+
     public int getPower() {
         return power;
     }
