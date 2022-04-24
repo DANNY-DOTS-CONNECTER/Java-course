@@ -1,5 +1,7 @@
 package edu.hitsz.rankings;
 
+import edu.hitsz.application.Game;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,14 +10,32 @@ import java.util.List;
 /**
  * @author Zhoudanni
  */
-public class UserDaoList implements UserDao {
+public class UserDaoImp implements UserDao {
 
-    File file = new File("src\\rankings.txt");
+    String level1 = "src\\rankings.txt";
+    String level2 = "src\\rankings2.txt";
+    String level3 = "src\\rankings3.txt";
+    File file;
+
+    {
+        switch (Game.level) {
+            case 1:
+                file = new File(level1);
+                break;
+            case 2:
+                file = new File(level2);
+                break;
+            case 3:
+                file = new File(level3);
+                break;
+            default:
+        }
+    }
 
     @Override
     public List<User> getAllUserList() throws IOException, ClassNotFoundException {
-        //input
         List<User> usersList = new ArrayList<>();
+        //input
         FileInputStream fis = new FileInputStream(file);
         MyObjectInputStream ois = new MyObjectInputStream(fis);
         // 反序列化读取数据到列表中
@@ -41,12 +61,29 @@ public class UserDaoList implements UserDao {
         fos.close();
     }
 
-    /**
-     * 暂时没有使用这个方法
-     */
     @Override
-    public void deleteRecord(User user) {
-
+    public void deleteRecord(long userID) throws IOException, ClassNotFoundException {
+        List<User> users = getAllUserList();
+        users.removeIf(userData -> userData.getId() == userID);
+        //重写整个list到rankings
+        if (users.size() == 0) {
+            FileWriter writer = new FileWriter(file);
+            writer.write("");
+            writer.flush();
+            writer.close();
+        } else {
+            FileOutputStream fos = new FileOutputStream(file, false);
+            MyObjectOutputStream oos = new MyObjectOutputStream(fos);
+            try {
+                for (User userData : users) {
+                    oos.writeObject(userData);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            oos.close();
+            fos.close();
+        }
     }
 
     @Override
