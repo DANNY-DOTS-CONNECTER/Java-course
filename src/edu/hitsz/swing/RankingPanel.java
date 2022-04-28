@@ -28,7 +28,7 @@ public class RankingPanel {
 
     public RankingPanel() {
 
-        levelLabel.setText(" 难度：" + setLevelString());
+        levelLabel.setText("  Level：" + setLevelString());
 
         String[] columnName = {"名次", "玩家名", "得分", "记录时间"};
         UserDao userDao = new UserDaoImp();

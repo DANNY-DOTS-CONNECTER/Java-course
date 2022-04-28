@@ -13,14 +13,19 @@
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-3880230"/>
+        </properties>
         <border type="none"/>
         <children>
           <scrollpane id="24b07" binding="tableScrollPanel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <background color="-3879721"/>
+              <foreground color="-3880230"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="8c748" class="javax.swing.JTable" binding="scoreTable">
@@ -36,8 +41,9 @@
             <properties>
               <background color="-3880230"/>
               <enabled value="true"/>
-              <font size="22"/>
-              <text value="排行榜"/>
+              <font name="Jokerman" size="22"/>
+              <foreground color="-8878938"/>
+              <text value="Ranking"/>
             </properties>
           </component>
           <component id="527a6" class="javax.swing.JLabel" binding="levelLabel">
@@ -45,8 +51,9 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font size="20"/>
-              <text value="难度"/>
+              <font name="Jokerman" size="20"/>
+              <foreground color="-10846298"/>
+              <text value="Level"/>
             </properties>
           </component>
         </children>
@@ -66,7 +73,10 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="删除"/>
+              <background color="-856598"/>
+              <font name="Jokerman" size="18"/>
+              <foreground color="-8878938"/>
+              <text value="Delete"/>
             </properties>
           </component>
         </children>
