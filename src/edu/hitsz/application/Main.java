@@ -45,8 +45,8 @@ public class Main {
         frame.remove(startMainPage);
         Game game = new Game();
         frame.setContentPane(game);
-        //TODO 这里可能有问题，问题在？
 //        frame.add(game);
+        //有一张ContentPane在上面，空板子，找不到纸
         frame.setVisible(true);
         game.action();
 

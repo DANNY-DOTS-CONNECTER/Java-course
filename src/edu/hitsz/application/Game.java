@@ -170,22 +170,22 @@ public class Game extends JPanel {
                 musicThreads[5] = gameOverBgm;
                 gameOverBgm.start();
 
-                //休眠50ms
+                //休眠50ms让gameOverBgm播放
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
+                //上下两句调换过位置
+                gameOverFlag = true;
+                executorService.shutdown();
+
                 for (MusicThread music : musicThreads) {
                     if (music != null){
                         music.setBreakPoint(true);
                     }
                 }
-
-                //上下两句调换过位置
-                gameOverFlag = true;
-                executorService.shutdown();
 
                 //添加游戏用户信息
                 String inputName = JOptionPane.showInputDialog("游戏结束，你的得分为：" + score + "\n输入姓名记录得分：");
@@ -333,7 +333,7 @@ public class Game extends JPanel {
                             if (booster != null) {
                                 boosterPacks.add(booster);
                             }
-                            //精英敌机加20分
+                            //精英敌机加15分
                             score += 15;
                         } else if (enemyAircraft.getClass() == MobEnemy.class) {
                             //普通敌机加10分

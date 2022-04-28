@@ -78,21 +78,6 @@ public class StartPage {
         });
     }//end constructor
 
-//    //不知道这么写main对不对哈，更改过一些参数
-//    public static void main(String[] args) {
-//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//        JFrame frame = new JFrame("startPage");
-//        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-//        frame.setResizable(false);
-//        frame.setContentPane(new StartPage().mainPanel);
-//        frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, 0,
-//                WINDOW_WIDTH, WINDOW_HEIGHT);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
-//    }
-
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("StartPage");
         frame.setContentPane(new StartPage().mainPanel);
