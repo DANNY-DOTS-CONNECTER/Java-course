@@ -30,8 +30,8 @@ public class EliteEnemy extends AbstractEnemy {
     public AbstractBoosterPacks createProp(){
         Random r = new Random();
         double randomNumber = r.nextDouble();
-        //掉落道具的概率设置为0.5
-        double portion = 0.5;
+        //掉落道具的概率设置为0.8
+        double portion = 0.8;
         if(randomNumber < portion){
             int propRandom = r.nextInt(3);
             switch (propRandom) {
