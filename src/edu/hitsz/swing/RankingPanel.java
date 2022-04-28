@@ -74,14 +74,13 @@ public class RankingPanel {
                     Collections.sort(users);
                     long id = (users.get(row)).getId();
                     //跳出提示对话框提醒是否需要删除
+                    //YES_OPTION = 0
                     int n = JOptionPane.showConfirmDialog(null, "是否确定要删除所选玩家？", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
-                    //TODO 这样不会选中任意一个Button都删除吗？
                     if (n == 0) {
                         model.removeRow(row);
                         userDao.deleteRecord(id);
                         refresh();
                     }
-                    Collections.sort(users);
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
