@@ -1,5 +1,7 @@
 package edu.hitsz.bullet;
 
+import edu.hitsz.observer.BombAction;
+
 /**
  * @author Zhoudanni
  * 敌人子弹
@@ -10,4 +12,8 @@ public class EnemyBullet extends AbstractBullet {
         super(locationX, locationY, speedX, speedY, power);
     }
 
+    @Override
+    public void update() {
+        vanish();
+    }
 }

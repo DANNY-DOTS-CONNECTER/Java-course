@@ -2,6 +2,7 @@ package edu.hitsz.bullet;
 
 import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.observer.BombAction;
 
 /**
  * 子弹类。
@@ -9,7 +10,7 @@ import edu.hitsz.basic.AbstractFlyingObject;
  *
  * @author hitsz
  */
-public class AbstractBullet extends AbstractFlyingObject {
+public class AbstractBullet extends AbstractFlyingObject implements BombAction {
 
     private int power;
 
@@ -39,5 +40,10 @@ public class AbstractBullet extends AbstractFlyingObject {
 
     public int getPower() {
         return power;
+    }
+
+    @Override
+    public void update() {
+
     }
 }
