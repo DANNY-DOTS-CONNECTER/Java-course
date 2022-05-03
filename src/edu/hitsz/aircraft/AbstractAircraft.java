@@ -74,6 +74,10 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         return power;
     }
 
+    public void setPower(int power) {
+        this.power = power;
+    }
+
     public int getDirection() {
         return direction;
     }
@@ -86,7 +90,7 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      * 飞机射击方法，可射击对象必须实现
      * @return
      *  可射击对象需实现，返回子弹
-     *  非可射击对象空实现，返回null
+     *  非可射击对象空实现，返回空子弹集合
      */
     public List<AbstractBullet> shoot(AbstractAircraft aircraft) {
         return strategy.selectTrajectory(aircraft);
