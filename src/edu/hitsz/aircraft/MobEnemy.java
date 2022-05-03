@@ -13,4 +13,9 @@ public class MobEnemy extends AbstractEnemy {
         this.shootNum = 0;
     }
 
+    @Override
+    public void update() {
+        vanish();
+    }
+
 }

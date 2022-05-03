@@ -30,21 +30,28 @@ public class EliteEnemy extends AbstractEnemy {
     public AbstractBoosterPacks createProp(){
         Random r = new Random();
         double randomNumber = r.nextDouble();
-        //掉落道具的概率设置为0.8
-        double portion = 0.8;
+        //掉落道具的概率设置为0.6
+        double portion = 0.6;
         if(randomNumber < portion){
-            int propRandom = r.nextInt(3);
+            int propRandom = r.nextInt(10);
             switch (propRandom) {
                 // 加血道具
                 case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
                     propFactory = new PropBloodFactory();
                     return propFactory.createOperation(this.getLocationX(), this.getLocationY());
                 // 火力道具
-                case 1:
+                case 6:
+                case 7:
+                case 8:
                     propFactory = new PropBulletFactory();
                     return propFactory.createOperation(this.getLocationX(), this.getLocationY());
                 // 炸弹道具
-                case 2:
+                case 9:
                     propFactory = new PropBombFactory();
                     return propFactory.createOperation(this.getLocationX(), this.getLocationY());
                 default:
@@ -53,4 +60,10 @@ public class EliteEnemy extends AbstractEnemy {
         }
         return null;
     }
+
+    @Override
+    public void update() {
+        vanish();
+    }
+
 }
