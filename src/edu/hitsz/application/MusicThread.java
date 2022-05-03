@@ -17,13 +17,17 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.sound.sampled.DataLine.Info;
 
+/**
+ *
+ * @author Zhoudanni
+ */
 public class MusicThread extends Thread {
 
     //音频文件名
     private String filename;
     private AudioFormat audioFormat;
     private byte[] samples;
-    private boolean isInterrupted = false;
+    private boolean notInterrupted = true;
 
     public MusicThread(String filename) {
         //初始化filename
@@ -60,7 +64,6 @@ public class MusicThread extends Thread {
         return samples;
     }
 
-    //设置一个stop标志位，如果停止播放，需要在play里找一个地方跳出去，也需要一个循环标志位，run多次
     public void play(InputStream source) {
         int size = (int) (audioFormat.getFrameSize() * audioFormat.getSampleRate());
         byte[] buffer = new byte[size];
@@ -78,7 +81,7 @@ public class MusicThread extends Thread {
         dataLine.start();
         try {
             int numBytesRead = 0;
-            while (numBytesRead != -1 && !isInterrupted && StartPage.musicFlag) {
+            while (numBytesRead != -1 && notInterrupted && StartPage.musicFlag) {
 				//从音频流读取指定的最大数量的数据字节，并将其放入缓冲区中
                 numBytesRead =
                         source.read(buffer, 0, buffer.length);
@@ -103,7 +106,7 @@ public class MusicThread extends Thread {
     }
 
     public void setBreakPoint(boolean breakPoint){
-        this.isInterrupted = breakPoint;
+        this.notInterrupted = breakPoint;
     }
 }
 
