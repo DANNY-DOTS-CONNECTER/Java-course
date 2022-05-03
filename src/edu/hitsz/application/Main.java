@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * 程序入口
+ *
  * @author hitsz
  */
 public class Main {
@@ -16,7 +17,6 @@ public class Main {
     public static final int WINDOW_HEIGHT = 768;
     public static final Object lock = new Object();
 
-    //这里添加过throws InterruptedException
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Hello Aircraft War");
@@ -38,19 +38,31 @@ public class Main {
         frame.setContentPane(startMainPage);
         frame.setVisible(true);
 
-        synchronized (Main.lock){
+        synchronized (Main.lock) {
             (Main.lock).wait();
         }
 
         frame.remove(startMainPage);
-        Game game = new Game();
+
+        Game game = null;
+        switch (Game.level) {
+            case 1:
+                game = new EasyMode();
+                break;
+            case 2:
+                game = new MediumMode();
+                break;
+            case 3:
+                game = new DifficultMode();
+                break;
+            default:
+        }
+
         frame.setContentPane(game);
-//        frame.add(game);
-        //有一张ContentPane在上面，空板子，找不到纸
         frame.setVisible(true);
         game.action();
 
-        synchronized (Main.lock){
+        synchronized (Main.lock) {
             (Main.lock).wait();
         }
 
@@ -61,12 +73,12 @@ public class Main {
         frame.setContentPane(rankingMainPanel);
         frame.setVisible(true);
 
-        synchronized (Main.lock){
+        synchronized (Main.lock) {
             (Main.lock).wait();
         }
 
         //用户选择添加新数据，刷新页面
-        if(game.newDataAddedFlag){
+        if (game.newDataAddedFlag) {
             //重新new一下RankingPanel()
             rankingPanel = new RankingPanel();
             rankingMainPanel = rankingPanel.getMainPanel();
