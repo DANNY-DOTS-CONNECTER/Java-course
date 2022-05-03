@@ -50,16 +50,16 @@ public class ImageManager {
 
             BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
 
-            HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/hero.png"));
-            MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
-            HERO_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet_hero.png"));
-            ENEMY_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet_enemy.png"));
-            ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/elite.png"));
-            BOSS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/boss.png"));
+            HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/me1.png"));
+            MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/enemy1.png"));
+            HERO_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet1.png"));
+            ENEMY_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet2.png"));
+            ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/enemy2.png"));
+            BOSS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/enemy3.png"));
 
-            PROP_BLOOD = ImageIO.read(new FileInputStream("src/images/prop_blood.png"));
-            PROP_BOMB = ImageIO.read(new FileInputStream("src/images/prop_bomb.png"));
-            PROP_BULLET = ImageIO.read(new FileInputStream("src/images/prop_bullet.png"));
+            PROP_BLOOD = ImageIO.read(new FileInputStream("src/images/blood.png"));
+            PROP_BOMB = ImageIO.read(new FileInputStream("src/images/bomb.png"));
+            PROP_BULLET = ImageIO.read(new FileInputStream("src/images/bullet_supply.png"));
 
             CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
             CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
