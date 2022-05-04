@@ -13,6 +13,7 @@ import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.bullet.HeroBullet;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +45,7 @@ public class ImageManager {
     public static BufferedImage PROP_BLOOD;
     public static BufferedImage PROP_BOMB;
     public static BufferedImage PROP_BULLET;
+    public static ImageIcon ICON = new ImageIcon("src/images/me2.png");
 
     static {
         try {
