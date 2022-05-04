@@ -1,23 +1,28 @@
 package edu.hitsz.application;
 
 import edu.hitsz.aircraft.*;
-import edu.hitsz.booster.*;
-import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.booster.AbstractBoosterPacks;
+import edu.hitsz.booster.PropBlood;
+import edu.hitsz.booster.PropBomb;
+import edu.hitsz.booster.PropBullet;
+import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.rankings.User;
 import edu.hitsz.rankings.UserDao;
 import edu.hitsz.rankings.UserDaoImp;
-import edu.hitsz.trajectory.StraightTrajectory;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -58,7 +63,6 @@ public abstract class Game extends JPanel {
     protected int score = 0;
     protected int time = 0;
     protected boolean bossFlag = false;
-    private boolean propBulletWorking = false;
     boolean newDataAddedFlag = false;
 
     public double portion;
@@ -70,7 +74,6 @@ public abstract class Game extends JPanel {
     protected int cycleDuration = 500;
     private int cycleTime = 0;
 
-    private Thread bulletThread;
     protected final MusicThread[] musicThreads = new MusicThread[7];
 
     protected int currentTime;
@@ -307,24 +310,7 @@ public abstract class Game extends JPanel {
                     musicThreads[3] = supplyBgm;
                     supplyBgm.start();
 
-                    //终止上一个正在进行的bulletThread线程
-                    if (propBulletWorking) {
-                        bulletThread.interrupt();
-                    }
                     boosterPack.bonus(heroAircraft);
-                    propBulletWorking = true;
-                    Runnable r = () -> {
-                        try {
-                            TimeUnit.SECONDS.sleep(10);
-                            heroAircraft.setShootNum(1);
-                            heroAircraft.setStrategy(new StraightTrajectory());
-                            propBulletWorking = false;
-                        } catch (InterruptedException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    };
-                    bulletThread = new Thread(r);
-                    bulletThread.start();
                 } else if (boosterPack instanceof PropBlood) {
                     MusicThread supplyBgm = new MusicThread("src/videos/get_supply.wav");
                     musicThreads[3] = supplyBgm;
@@ -337,24 +323,9 @@ public abstract class Game extends JPanel {
                     musicThreads[4] = bombBgm;
                     bombBgm.start();
 
-//                    for(AbstractEnemy listener : enemyAircrafts){
-//                        ((PropBomb) boosterPack).addListener(listener);
-//                        if(listener instanceof MobEnemy){
-//                            score += 10;
-//                        }else if(listener instanceof  EliteEnemy){
-//                            score += 15;
-//                        }
-//                    }
-//
-//                    for(AbstractBullet bullet : enemyBullets){
-//                        if(bullet instanceof EnemyBullet){
-//                            ((PropBomb) boosterPack).addListener(bullet);
-//                        }
-//                    }
-
                     addObserver(boosterPack);
-
                     boosterPack.bonus(heroAircraft);
+                    deleteObserver(boosterPack);
                 }
                 boosterPack.vanish();
             }
