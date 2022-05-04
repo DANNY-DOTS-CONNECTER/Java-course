@@ -6,7 +6,11 @@ import edu.hitsz.rankings.UserDao;
 import edu.hitsz.rankings.UserDaoImp;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -28,9 +32,17 @@ public class RankingPanel {
 
     public RankingPanel() {
 
+        //设置文字居中
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(JLabel.CENTER);
+        scoreTable.setDefaultRenderer(Object.class, tcr);
+
+
+
+
         levelLabel.setText("  Level：" + setLevelString());
 
-        String[] columnName = {"名次", "玩家名", "得分", "记录时间"};
+        String[] columnName = {"Number", "Name", "Score", "Time"};
         UserDao userDao = new UserDaoImp();
         String[][] tableData = {{}};
 
@@ -89,6 +101,10 @@ public class RankingPanel {
 
         scoreTable.setModel(model);
         tableScrollPanel.setViewportView(scoreTable);
+
+        JTableHeader header = scoreTable.getTableHeader();
+        header.setFont(new Font("Algerian",Font.PLAIN,18));
+        scoreTable.setRowHeight(28);
 
     }//end constructor
 

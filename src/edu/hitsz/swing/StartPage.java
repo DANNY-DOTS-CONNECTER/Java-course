@@ -5,6 +5,7 @@ import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,12 +18,14 @@ public class StartPage {
     private JPanel Panel3;
     private JPanel Panel2;
     private JButton easyField;
-    private JButton hardField;
     private JButton mediumField;
+    private JButton hardField;
     private JPanel musicPanel;
     private JRadioButton musicOnField;
     private JRadioButton musicOffField;
-    public static boolean musicFlag = true;
+    private JLabel pictureLabel;
+    private JPanel Panel4;
+    public static boolean musicFlag = false;
 
     public StartPage() {
 
@@ -30,17 +33,7 @@ public class StartPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.level = 1;
-                ImageManager.setBackgroundImage("src/images/bg2.jpg");
-                synchronized (Main.lock){
-                    (Main.lock).notify();
-                }
-            }
-        });
-        hardField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Game.level = 2;
-                ImageManager.setBackgroundImage("src/images/bg3.jpg");
+                ImageManager.setBackgroundImage("src/images/bg7.jpg");
                 synchronized (Main.lock){
                     (Main.lock).notify();
                 }
@@ -49,8 +42,18 @@ public class StartPage {
         mediumField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Game.level = 2;
+                ImageManager.setBackgroundImage("src/images/bg8.jpg");
+                synchronized (Main.lock){
+                    (Main.lock).notify();
+                }
+            }
+        });
+        hardField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 Game.level = 3;
-                ImageManager.setBackgroundImage("src/images/bg4.jpg");
+                ImageManager.setBackgroundImage("src/images/background.png");
                 synchronized (Main.lock){
                     (Main.lock).notify();
                 }
@@ -62,7 +65,7 @@ public class StartPage {
         btnGroup.add(musicOnField);
         btnGroup.add(musicOffField);
 
-        musicOnField.setSelected(true);
+        musicOffField.setSelected(true);
         musicOnField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,6 +79,9 @@ public class StartPage {
                 musicFlag = false;
             }
         });
+
+        pictureLabel.setIcon(new ImageIcon("src/images/start.png"));
+
     }//end constructor
 
     public static void main(String[] args) {
@@ -89,4 +95,9 @@ public class StartPage {
     public JPanel getMainPanel() {
         return mainPanel;
     }
+
+
+//    public Game getGame(){
+//        return game;
+//    }
 }
