@@ -15,7 +15,7 @@ public class PropBlood extends AbstractBoosterPacks{
     @Override
     public void bonus(HeroAircraft aircraft) {
         int blood = aircraft.getHp();
-        blood += 50;
+        blood += 100;
         aircraft.setHp(blood);
     }
 }

@@ -1,7 +1,5 @@
 package edu.hitsz.observer;
 
-import edu.hitsz.basic.AbstractFlyingObject;
-
 /**
  * 观察者接口
  * @author Zhoudanni

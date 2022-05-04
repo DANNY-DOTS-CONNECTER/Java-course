@@ -4,6 +4,7 @@ import edu.hitsz.aircraft.AbstractEnemy;
 import edu.hitsz.aircraft.BossEnemyFactory;
 import edu.hitsz.aircraft.EliteEnemyFactory;
 import edu.hitsz.aircraft.MobEnemyFactory;
+import edu.hitsz.booster.PropBullet;
 
 /**
  * 困难模式
@@ -37,12 +38,14 @@ public class DifficultMode extends Game {
                 enemyFactory = new EliteEnemyFactory();
                 AbstractEnemy enemy = enemyFactory.createOperation();
                 enemy.setHp(60);
-                enemy.setPower(30 + difficulty);
+                enemy.setPower(30 + difficulty * 2);
+                enemy.setSpeedY(6 + difficulty);
                 enemyAircrafts.add(enemy);
             } else {
                 enemyFactory = new MobEnemyFactory();
                 AbstractEnemy mobEnemy = enemyFactory.createOperation();
-                mobEnemy.setSpeedY(12);
+                //普通敌机速度会越来越快
+                mobEnemy.setSpeedY(12 + difficulty);
                 enemyAircrafts.add(mobEnemy);
             }
         }
@@ -52,7 +55,10 @@ public class DifficultMode extends Game {
             difficulty++;
             System.out.println("当前LevelCount 等于 " + difficulty);
             portion -= 0.03;
-            System.out.println("当前的精英敌机概率为" + (1 - portion) + "，当前敌机子弹更强大了！");
+            System.out.println("当前的精英敌机概率为" + (1 - portion) + "，当前敌机更强大了！");
+            //为了平衡游戏感，每次提升难度后都延长火力道具生效的时间
+            PropBullet.increaseValidDuration();
+            System.out.println("当前火力道具生效时长为：" + PropBullet.validDuration);
         }
     }
 

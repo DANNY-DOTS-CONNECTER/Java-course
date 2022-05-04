@@ -1,9 +1,10 @@
 package edu.hitsz.application;
 
-import edu.hitsz.aircraft.*;
-import edu.hitsz.rankings.UserDaoImp;
-
-import java.util.LinkedList;
+import edu.hitsz.aircraft.AbstractEnemy;
+import edu.hitsz.aircraft.BossEnemyFactory;
+import edu.hitsz.aircraft.EliteEnemyFactory;
+import edu.hitsz.aircraft.MobEnemyFactory;
+import edu.hitsz.booster.PropBullet;
 
 /**
  * 中等难度模式
@@ -44,11 +45,14 @@ public class MediumMode extends Game{
         }
 
         levelCount = (super.currentTime / cycleDuration);
-        if (portion > 0.7 && levelCount % 70 == 1) {
+        if (portion > 0.7 && levelCount % 70 == 1 && levelCount != 1) {
             difficulty++;
             System.out.print("提高难度！当前LevelCount 等于 " + difficulty);
             portion -= 0.02;
-            System.out.println("，当前的精英敌机概率为" + (1 - portion));
+            System.out.println("，当前的精英敌机概率为" + (1 - portion) + "，敌机已提高属性" );
+            //为了平衡游戏感，每次提升难度后都延长火力道具生效的时间
+            PropBullet.increaseValidDuration();
+            System.out.println("当前火力道具生效时长为：" + PropBullet.validDuration);
         }
     }
 
